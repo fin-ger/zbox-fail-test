@@ -17,7 +17,7 @@ send "rm -rf data zbox-fail-test-repo zbox-fail-test\n"
 expect -ex {zbox:~# }
 send "dd if=/dev/urandom of=data bs=1K count=128\n"
 expect -ex {zbox:~# }
-send "wget https://github.com/fin-ger/zbox-fail-test/releases/download/v0.1.0/zbox-fail-test\n"
+send "wget https://github.com/fin-ger/zbox-fail-test/releases/download/v0.2.0/zbox-fail-test\n"
 expect -ex {zbox:~# }
 send "chmod +x zbox-fail-test\n"
 expect -ex {zbox:~# }
