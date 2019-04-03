@@ -1,3 +1,5 @@
 /target
 **/*.rs.bk
 /qemu
+/zbox-fail-test-repo
+/data

@@ -1,0 +1,17 @@
+#! /usr/bin/env expect
+
+set timeout -1
+
+spawn qemu-system-x86_64 \
+    -no-kvm \
+    -machine pc \
+    -cpu qemu64 \
+    -accel tcg \
+    -drive file=qemu/zbox.img,format=raw \
+    -nographic
+
+expect -ex {zbox login: }
+send "root\n"
+expect -ex {zbox:~# }
+send "RUST_BACKTRACE=1 ./zbox-fail-test --file data check\n"
+expect -ex {zbox:~# }
