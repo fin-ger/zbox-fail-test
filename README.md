@@ -47,7 +47,7 @@ This will try to validate the repository contents against the expected data. Cur
 1. Create a reference file for the test:
 
 ```
-$ dd if=/dev/urandom of=data bs=1K count=128
+$ dd if=/dev/urandom of=data bs=1M count=16
 ```
 
 2. Run the test
