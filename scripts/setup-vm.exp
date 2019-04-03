@@ -1,0 +1,66 @@
+#! /usr/bin/env expect
+
+set timeout -1
+
+spawn mkdir -p qemu
+wait
+spawn curl http://dl-cdn.alpinelinux.org/alpine/v3.9/releases/x86_64/alpine-virt-3.9.2-x86_64.iso \
+    -o qemu/alpine-virt-3.9.2-x86_64.iso
+wait
+spawn qemu-img create qemu/zbox.img 1G
+wait
+
+spawn qemu-system-x86_64 \
+    -no-kvm \
+    -machine pc \
+    -cpu qemu64 \
+    -accel tcg \
+    -cdrom qemu/alpine-virt-3.9.2-x86_64.iso \
+    -boot order=d \
+    -drive file=qemu/zbox.img,format=raw \
+    -nographic
+
+expect -ex {localhost login: }
+send "root\n"
+expect -ex {localhost:~# }
+send "echo 'KEYMAPOPTS=\"us us\"' > setup\n"
+expect -ex {localhost:~# }
+send "echo 'HOSTNAMEOPTS=\"-n zbox\"' >> setup\n"
+expect -ex {localhost:~# }
+send "echo 'INTERFACESOPTS=\"auto lo' >> setup\n"
+expect -ex {localhost:~# }
+send "echo 'iface lo inet loopback' >> setup\n"
+expect -ex {localhost:~# }
+send "echo '' >> setup\n"
+expect -ex {localhost:~# }
+send "echo 'auto eth0' >> setup\n"
+expect -ex {localhost:~# }
+send "echo 'iface eth0 inet dhcp' >> setup\n"
+expect -ex {localhost:~# }
+send "echo 'hostname zbox' >> setup\n"
+expect -ex {localhost:~# }
+send "echo '\"' >> setup\n"
+expect -ex {localhost:~# }
+send "echo 'DNSOPTS=\"-n 8.8.8.8\"' >> setup\n"
+expect -ex {localhost:~# }
+send "echo 'TIMEZONEOPTS=\"-z Europe/Berlin\"' >> setup\n"
+expect -ex {localhost:~# }
+send "echo 'PROXYOPTS=\"none\"' >> setup\n"
+expect -ex {localhost:~# }
+send "echo 'APKREPOSOPTS=\"-f\"' >> setup\n"
+expect -ex {localhost:~# }
+send "echo 'SSHDOPTS=\"-c none\"' >> setup\n"
+expect -ex {localhost:~# }
+send "echo 'NTPOPTS=\"-c none\"' >> setup\n"
+expect -ex {localhost:~# }
+send "echo 'DISKOPTS=\"-m sys /dev/sda\"' >> setup\n"
+expect -ex {localhost:~# }
+# this is to increase the entropy of /dev/random
+# this is needed in order to establish https connections (apk mirrors, etc.)
+send "find /\n"
+expect -ex {localhost:~# }
+send "setup-alpine -e -f setup\n"
+expect -ex {WARNING: Erase the above disk(s) and continue? [y/N]: }
+send "y\n"
+expect -ex {zbox:~# }
+send "poweroff\n"

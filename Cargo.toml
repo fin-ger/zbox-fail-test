@@ -1,0 +1,10 @@
+[package]
+name = "zbox-fail-test"
+version = "0.1.0"
+authors = ["Fin Christensen <christensen.fin@gmail.com>"]
+edition = "2018"
+description = "zbox fail testing application"
+
+[dependencies]
+zbox = "0.6.1"
+clap = "~2.32"

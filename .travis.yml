@@ -1,0 +1,15 @@
+language: minimal
+
+services:
+  - docker
+
+script:
+  - docker run --rm -v $(pwd):/volume alpine:edge /bin/sh -c 'cd /volume && apk add rust cargo libsodium-dev && export SODIUM_LIB_DIR=/usr/lib && export SODIUM_STATIC=true && cargo build --target x86_64-alpine-linux-musl'
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file: "./target/x86_64-alpine-linux-musl/debug/zbox-fail-test"
+  skip_cleanup: true
+  on:
+    tags: true
