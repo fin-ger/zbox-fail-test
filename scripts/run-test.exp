@@ -15,13 +15,12 @@ send "root\n"
 expect -ex {zbox:~# }
 send "rm -rf data zbox-fail-test-repo zbox-fail-test\n"
 expect -ex {zbox:~# }
-send "dd if=/dev/urandom of=data bs=1K count=128\n"
+send "dd if=/dev/urandom of=data bs=1M count=16\n"
 expect -ex {zbox:~# }
-send "wget https://github.com/fin-ger/zbox-fail-test/releases/download/v0.2.0/zbox-fail-test\n"
+send "wget https://github.com/fin-ger/zbox-fail-test/releases/download/v0.3.0/zbox-fail-test\n"
 expect -ex {zbox:~# }
 send "chmod +x zbox-fail-test\n"
 expect -ex {zbox:~# }
 send "RUST_BACKTRACE=1 ./zbox-fail-test --file data run\n"
-expect -ex {Writing chunk 0 to repository (1MiB)...}
-sleep 60
+expect -ex {Writing chunk 7 to repository (1MiB)...}
 exit

@@ -35,8 +35,8 @@ fn main() {
         .unwrap();
 
     if let Some(_) = matches.subcommand_matches("run") {
-        // 1 KiB buffer
-        let mut buffer = [0; 1024];
+        // 1 MiB buffer
+        let mut buffer = [0; 1024 * 1024];
         let mut pos = 0;
 
         // truncate old contents of file
@@ -50,7 +50,7 @@ fn main() {
                         break;
                     }
 
-                    println!("Writing chunk {} to repository ({}KiB)...", pos, (length as f32) / 1024.0);
+                    println!("Writing chunk {} to repository ({}MiB)...", pos, (length as f32) / (1024.0 * 1024.0));
                     file.write_once(&buffer[0..length]).unwrap();
                     println!("Finished writing, new version created");
                 },
@@ -62,11 +62,11 @@ fn main() {
             pos += 1;
         }
     } else if let Some(_) = matches.subcommand_matches("check") {
-        // 1 KiB reference buffer
-        let mut ref_buffer = [0; 1024];
+        // 1 MiB reference buffer
+        let mut ref_buffer = [0; 1024 * 1024];
         let mut ref_len;
-        // 1 KiB repo buffer
-        let mut repo_buffer = [0; 1024];
+        // 1 MiB repo buffer
+        let mut repo_buffer = [0; 1024 * 1024];
         let mut repo_len;
         let mut pos = 0;
 
@@ -98,7 +98,7 @@ fn main() {
             if repo_len == 0 {
                 break;
             } else if repo_len != 1024 * 1024 {
-                panic!("Incomplete chunk {} of size {}KiB", pos, (repo_len as f32) / 1024.0);
+                panic!("Incomplete chunk {} of size {}MiB", pos, (repo_len as f32) / (1024.0 * 1024.0));
             }
 
             if ref_buffer[..] != repo_buffer[..] {

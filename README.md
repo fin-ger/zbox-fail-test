@@ -30,7 +30,7 @@ This will setup an alpine linux vm inside the `./qemu` folder.
 $ ./scripts/run-test.exp
 ```
 
-This will run a statically linked binary of the rust project that is included in this repository. The `run` action of the rust program will be interrupted after 20 seconds, which will lead to an interrupted write action in the zbox repository.
+This will run a statically linked binary of the rust project that is included in this repository. The `run` action of the rust program will be interrupted after the 7th chunk is written, which will lead to an interrupted write action in the zbox repository.
 
 ### Check the repository for inconsistencies
 
