@@ -13,5 +13,5 @@ spawn qemu-system-x86_64 \
 expect -ex {zbox login: }
 send "root\n"
 expect -ex {zbox:~# }
-send "RUST_BACKTRACE=1 ./zbox-fail-test --file data check\n"
+send "RUST_LOG=zbox=trace RUST_BACKTRACE=1 ./zbox-fail-test --file data check\n"
 expect -ex {zbox:~# }

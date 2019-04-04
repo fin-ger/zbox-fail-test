@@ -1,10 +1,10 @@
 [package]
 name = "zbox-fail-test"
-version = "0.3.0"
+version = "0.4.0"
 authors = ["Fin Christensen <christensen.fin@gmail.com>"]
 edition = "2018"
 description = "zbox fail testing application"
 
 [dependencies]
-zbox = "0.6.1"
+zbox = { git = "https://github.com/zboxfs/zbox.git", features = ["storage-file"] }
 clap = "~2.32"
