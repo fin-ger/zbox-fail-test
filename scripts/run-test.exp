@@ -7,7 +7,7 @@ spawn qemu-system-x86_64 \
     -machine pc \
     -cpu qemu64 \
     -accel tcg \
-    -drive file=qemu/zbox.img,format=raw \
+    -drive file=qemu/zbox.img,format=raw,cache=directsync \
     -nographic
 
 expect -ex {zbox login: }

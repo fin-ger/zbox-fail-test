@@ -1,0 +1,26 @@
+#! /usr/bin/env expect
+
+set timeout -1
+
+spawn qemu-system-x86_64 \
+    -no-kvm \
+    -machine pc \
+    -cpu qemu64 \
+    -accel tcg \
+    -drive file=qemu/zbox.img,format=raw \
+    -nographic
+
+expect -ex {zbox login: }
+send "root\n"
+expect -ex {zbox:~# }
+send "rm -rf dd-test-src dd-test-dst\n"
+expect -ex {zbox:~# }
+send "apk add coreutils\n"
+expect -ex {zbox:~# }
+send "base64 /dev/urandom | head -c 16777216 > dd-test-src\n"
+expect -ex {zbox:~# }
+send "dd if=dd-test-src of=dd-test-dst status=progress iflag=direct oflag=direct &\n"
+expect -ex {zbox:~# }
+send "sleep 5\n"
+expect -ex {zbox:~# }
+exit

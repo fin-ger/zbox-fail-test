@@ -7,11 +7,13 @@ spawn qemu-system-x86_64 \
     -machine pc \
     -cpu qemu64 \
     -accel tcg \
-    -drive file=qemu/zbox.img,format=raw,cache=directsync \
+    -drive file=qemu/zbox.img,format=raw \
     -nographic
 
 expect -ex {zbox login: }
 send "root\n"
 expect -ex {zbox:~# }
-send "RUST_LOG=zbox=trace RUST_BACKTRACE=1 ./zbox-fail-test --file data check\n"
+send "diff dd-test-src dd-test-dst | grep \"^+\"\n"
 expect -ex {zbox:~# }
+send "poweroff\n"
+wait
